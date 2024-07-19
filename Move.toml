@@ -1,0 +1,14 @@
+[package]
+name = "concerts"
+version = "1.0.0"
+authors = []
+
+[addresses]
+tickets = "_"
+[dev-addresses]
+tickets = "0x31"
+
+[dependencies]
+AptosFramework = {git = "https://github.com/aptos-labs/aptos-core.git", rev = "mainnet", subdir = "aptos-move/framework/aptos-framework"}
+AptosTokenObjects = {git = "https://github.com/aptos-labs/aptos-core.git", rev = "mainnet", subdir = "aptos-move/framework/aptos-token-objects"}
+
