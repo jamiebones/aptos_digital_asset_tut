@@ -87,6 +87,19 @@ module tickets::unit_tests {
         tickets::mint_ticket_token(creator, string::utf8(b"Token #3"), owner_2_addr, string::utf8(GOLD_TICKET));
     }
 
-    //E11001
+    #[test(creator = @tickets, owner_1 = @0xA, owner_2 = @0xB, aptos_framework = @0x1)]
+    fun should_use_ticket(
+        creator: &signer,
+        owner_1: &signer,
+        owner_2: &signer,
+        aptos_framework: &signer,
+    ) {
+        setup_test(creator, owner_1, owner_2, aptos_framework);
+        let owner_1_addr = signer::address_of(owner_1);
+        let token_1_constructor_ref = tickets::mint_ticket_token(creator, string::utf8(b"Token #1"), owner_1_addr, string::utf8(GOLD_TICKET));
+        let token_1_obj: Object<TicketToken> = object::object_from_constructor_ref(&token_1_constructor_ref);
+        tickets::use_ticket(token_1_obj, owner_1);
+        assert!(tickets::view_ticket_status(token_1_obj) == true, 601);
 
+    }
 }

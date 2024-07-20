@@ -141,10 +141,13 @@ module tickets::tickets {
     }
 
     public entry fun use_ticket(
-        token: Object<TicketToken>
+        token: Object<TicketToken>,
+        owner: &signer
     ) acquires TicketToken {
+        let owner_addr = signer::address_of(owner);
         let token_address = object::object_address(&token);
         let ticket_token = borrow_global<TicketToken>(token_address);
+        assert!(object::owner(token) == owner_addr, E_NOT_THE_OWNER);
         let property_mutator_ref = &ticket_token.property_mutator_ref;
         property_map::update_typed(property_mutator_ref, &string::utf8(b"Ticket_Used"), true);
     }
